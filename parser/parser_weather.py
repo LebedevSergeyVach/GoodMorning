@@ -16,7 +16,7 @@ def hourly_weather_forecast():
     felt_temperature = f"ощущается как {main.find(class_='p-forecast__data').text}."
     description = f"На улице {main.find(class_='p-forecast__description').text}"
 
-    if "облачность" in description:
+    if "облачность" in description or "облачно" in description:
         icon = "⛅️"
     elif "ясно" in description:
         icon = "☀️"
