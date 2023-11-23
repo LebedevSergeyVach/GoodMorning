@@ -1,8 +1,10 @@
-from aiogram import types, F, Router
+from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
 
-from parser_weather import hourly_weather_forecast
+from config import ID_TELEGRAM
+
+from parser.parser_weather import hourly_weather_forecast
 
 router = Router()
 
@@ -10,8 +12,16 @@ router = Router()
 @router.message(Command("start"))
 async def start_handler(message: Message):
     user_id = message.from_user.id
-    data, temperature, description, felt_temperature = hourly_weather_forecast()
-    await message.reply(f"На улице:\n{data}\n{temperature}\n{description}\n{felt_temperature}")
+    if str(message.from_user.id) in ID_TELEGRAM:
+        data, answer, temperature, felt_temperature, description, icon = hourly_weather_forecast()
+        await message.reply(
+            f"{answer}\n{data}\n{temperature}\n{felt_temperature}\n{description} {icon}."
+        )
+    else:
+        await message.reply(
+            "Вы не авторизованы для отправки сообщений."
+        )
+
     print(user_id)
 
 
