@@ -1,4 +1,10 @@
 .env
 .idea/
+venv/
+*.pyc
+*.log
+**/__pycache__/
+
+
 
 src/config.py

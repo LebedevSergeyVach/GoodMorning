@@ -5,7 +5,8 @@ from requests import get
 
 
 def hourly_weather_forecast():
-    answer = "Доброе утро солнышко!"
+    """ Returns the hourly forecast for the given weather station """
+    answer = choice(["Доброе утро солнышко!", "Просыпайся моя булочка!", "С добрый утром мой солёненький кренделёчек"])
 
     url = 'https://pogoda.mail.ru/prognoz/novosibirsk/24hours/'
     html = bs(get(url, timeout=5).content, 'html.parser')
@@ -18,12 +19,14 @@ def hourly_weather_forecast():
 
     if "облачность" in description or "облачно" in description:
         icon = "⛅️"
-    elif "ясно" in description:
+    elif "ясно" in description or "солнечно" in description:
         icon = "☀️"
+    elif "гроза" in description:
+        icon = "⛈"
     else:
         icon = "🌧"
 
     return data, answer, temperature, felt_temperature, description, icon
 
 
-print(hourly_weather_forecast())
+hourly_weather_forecast()
